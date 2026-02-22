@@ -72,10 +72,12 @@
         };
 
         var playlistApiUrl = "";
-        if (location.hostname == "localhost"){
-          playlistApiUrl = "http://localhost:81/"
+        // When running the web page locally, call the local API port. Otherwise
+        // call the host serving this page on port 81 where you port-forwarded the API.
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+          playlistApiUrl = location.protocol + "//localhost:81/api/playlists";
         } else {
-          playlistApiUrl = "http://" + location.hostname +  ":" + location.port + "/api/playlists"
+          playlistApiUrl = location.protocol + "//" + location.hostname + ":81/api/playlists";
         }
 
         var app = angular.module('videos', []);

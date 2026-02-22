@@ -13,9 +13,23 @@ using System.Diagnostics;
 var serviceName = "videos-api";
 var builder = WebApplication.CreateBuilder(args);
 
+// Add a permissive CORS policy for testing. Replace with specific origins in production.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+// Enable CORS
+app.UseCors("AllowAll");
 
 var environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
 var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST");
